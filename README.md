@@ -1,3 +1,7 @@
 # Wordpress-Plugins
-# create new plugins
+# created new plugins
+#
+# -a youtube widget
+# -a modidyable button
+# -a contact from shortcode
 #
