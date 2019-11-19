@@ -65,8 +65,9 @@ echo "Admin ajax";
 		} else {
 			echo 'error!?';
     }
-
-    die();
+	$url = add_query_arg( 'contactform', 'success', $_SERVER['HTTP_REFERER']);
+    	wp_redirect( $url );
+  	die();
 
   }
      
