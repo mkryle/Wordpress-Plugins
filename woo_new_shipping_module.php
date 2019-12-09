@@ -1,11 +1,10 @@
 <?php
- 
 /**
  * @package cms2 grp
  * @version 6.4
  */
 /*
-Plugin Name: woo frakt plugin
+Plugin Name: Thread Inc Shipping Delivery
 Plugin URI: http://kryle.se
 Description: plugin för frakt CMS2
 Author: Marcus Kryle
@@ -31,7 +30,7 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                  */
                 public function __construct() {
                     $this->id                 = 'threadinc'; 
-                    $this->method_title       = __( 'ThreadInc Shipping', 'threadinc' );  
+                    $this->method_title       = __( 'ThreadInc Shipping Delivery', 'threadinc' );  
                     $this->method_description = __( 'Custom Shipping Method for ThreadInc', 'threadinc' ); 
  
                     // only in sweden...
@@ -84,32 +83,39 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                           ),
  
 
-                    'maxweight' => array(
-					'title'       => __( 'weight', 'threadinc' ),
+                    'weight' => array(
+					'title'       => __( 'Maxvikt', 'threadinc' ),
 					'type'        => 'text',
 					'description' => __( 'maxweight (kg)', 'threadinc' ),
 					'default'     => __( '100', 'threadinc' ),	
                             ),
                 
 					'prisklass1' => array(
-					'title'       => __( 'prisklass2', 'threadinc' ),
+					'title'       => __( 'Prisklass 1 (0-10kg)', 'threadinc' ),
 					'type'        => 'text',
-					'description' => __( 'prisklass2', 'threadinc' ),
+					'description' => __( '0 - 10 kg', 'threadinc' ),
 					'default'     => __( '100', 'threadinc' ),	
                             ),
                             
 					'prisklass2' => array(
-					'title'       => __( 'prisklass2', 'threadinc' ),
+					'title'       => __( 'Prisklass 2 (11-30kg)', 'threadinc' ),
 					'type'        => 'text',
-					'description' => __( 'prisklass2', 'threadinc' ),
+					'description' => __( '11 - 30 kg', 'threadinc' ),
 					'default'     => __( '200', 'threadinc' ),	
 							),
 							
 					'prisklass3' => array(
-					'title'       => __( 'prisklass3', 'threadinc' ),
+					'title'       => __( 'prisklass 3 (31-50kg)', 'threadinc' ),
 					'type'        => 'text',
-					'description' => __( 'prisklass3', 'threadinc' ),
+					'description' => __( '31 - 50 kg', 'threadinc' ),
 					'default'     => __( '300', 'threadinc' ),	
+                            ),
+                            
+                    'prisklass4' => array(
+					'title'       => __( 'prisklass 4 (över 50kg)', 'threadinc' ),
+					'type'        => 'text',
+					'description' => __( 'över 50 kg', 'threadinc' ),
+					'default'     => __( '400', 'threadinc' ),	
   					      ),
 
  
@@ -125,6 +131,11 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
                  * @return void
                  */
                 public function calculate_shipping( $package ) {
+                    $price1 = $this->settings['prisklass1'];
+                    $price2 = $this->settings['prisklass2'];
+                    $price3 = $this->settings['prisklass3'];
+                    $price4 = $this->settings['prisklass4'];
+
 					$weight = 0;
 					
                     $cost = 0;
@@ -140,19 +151,19 @@ if ( in_array( 'woocommerce/woocommerce.php', apply_filters( 'active_plugins', g
  
                     if( $weight <= 10 ) {
  
-                        $cost = 0;
+                        $cost = $price1;
  
                     } elseif( $weight <= 30 ) {
  
-                        $cost = 5;
+                        $cost = $price2;
  
                     } elseif( $weight <= 50 ) {
  
-                        $cost = 10;
+                        $cost = $price3;
  
                     } else {
  
-                        $cost = 20;
+                        $cost = $price4;
  
                     }
  
